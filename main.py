@@ -80,19 +80,28 @@ def merge_datasets(df1, df2):
     # Perform outer merge on 'Registro' and 'Ubicación'
     df_merged = pd.merge(df1, df2, on=["Registro", "Ubicación"], how="outer")
 
-    # Ensure that unique columns from df2 are not dropped and reorder them if necessary
+    # Ensure that unique columns from df2 are not dropped
     unique_columns_df2 = ["Técnica", "Proceso de tratamiento", "Año de conclusión"]
     for col in unique_columns_df2:
         if col not in df_merged.columns:
             df_merged[col] = df2[col]
 
-    # Reorder columns if needed
-    if 'Año de identificación' in df_merged.columns and 'Año de conclusión' in df_merged.columns:
-        cols = df_merged.columns.tolist()
-        cols.insert(cols.index('Año de conclusión') + 1, cols.pop(cols.index('Año de identificación')))
-        df_merged = df_merged[cols]
+    # Reorder columns
+    cols = df_merged.columns.tolist()
+    if 'Registro' in cols:
+        # Find the index of 'Registro'
+        reg_idx = cols.index('Registro')
+        # Insert 'Año de identificación' and 'Año de conclusión' after 'Registro'
+        if 'Año de identificación' in cols:
+            cols.insert(reg_idx + 1, cols.pop(cols.index('Año de identificación')))
+        if 'Año de conclusión' in cols:
+            cols.insert(reg_idx + 2, cols.pop(cols.index('Año de conclusión')))
+    
+    # Reorder the DataFrame columns
+    df_merged = df_merged[cols]
 
     return df_merged
+
 
 def handle_missing_columns(df):
     """
@@ -118,9 +127,9 @@ def concat_data(dfs):
 
 def plot_year_distribution(df, output_dir):
     df["Año de identificación"].value_counts().sort_index().plot(kind='bar', figsize=(10, 6))
-    plt.title("Distribution of Records by Year")
-    plt.xlabel("Year")
-    plt.ylabel("Number of Records")
+    plt.title("Registro de Sitios Contaminados y Remediados por Año")
+    plt.xlabel("Año")
+    plt.ylabel("Cantidad de registros")
     plt.grid(True)
     
     if not os.path.exists(output_dir):
