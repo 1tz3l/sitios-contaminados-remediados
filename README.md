@@ -13,9 +13,6 @@ Este proyecto representa mi primera práctica en ingeniería de datos. El objeti
   - Python
 - **Herramientas ETL:**
   - Pandas
-  - SQLAlchemy
-- **Bases de Datos:**
-  - PostgreSQL
 
 ## :floppy_disk: ¿Cómo ejecutar el proyecto?
 1. Clonar el repositorio:
@@ -24,7 +21,32 @@ Este proyecto representa mi primera práctica en ingeniería de datos. El objeti
    ```
 2. Instalar dependencias:
    
-   > :warning: Pendiente
+   > :warning: Asegúrate de tener Python y WSL o una distribución compatible de Linux instalados.
+
+3. Crear un entorno virtual:
+  ```
+  python3 -m venv env
+  ```
+
+4. Activar el entorno virtual:
+ - En Linux/macOS:
+    ```
+    source env/bin/activate
+    ```
+ - En Windows:
+    ```
+    .\env\Scripts\activate
+    ```
+
+5. Instalar los paquetes necesarios:
+  ```
+  pip install -r requirements.txt
+  ```
+
+6. Ejecutar el proyecto:
+  ```
+  python main.py
+  ```
    
    
 ## :busts_in_silhouette: Contribuciones
